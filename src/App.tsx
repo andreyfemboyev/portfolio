@@ -1,163 +1,43 @@
-import { useEffect, useRef, useState } from 'react'
-import type { FormEvent } from 'react'
 import './App.css'
 
-type Repo = {
-  name: string
-  description: string | null
-  html_url: string
-  language: string | null
-  stargazers_count: number
-}
-
-const username = 'andreyfemboyev'
+const gh = 'https://github.com/andreyfemboyev'
+const art = 'https://raw.githubusercontent.com/andreyfemboyev/antiOS-Linux/main/screenshots/identity.png'
 
 function App() {
-  const [repos, setRepos] = useState<Repo[]>([])
-  const [loading, setLoading] = useState(true)
-  const [input, setInput] = useState('')
-  const [history, setHistory] = useState<string[]>([
-    "Welcome to andreyfemboyev.dev — type 'help' to explore.",
-  ])
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`)
-      .then((response) => response.ok ? response.json() : [])
-      .then((data: Repo[]) => setRepos(data.filter((repo) => !repo.name.endsWith('.github.io')).slice(0, 6)))
-      .finally(() => setLoading(false))
-  }, [])
-
-  const runCommand = (event: FormEvent) => {
-    event.preventDefault()
-    const command = input.trim().toLowerCase()
-    if (!command) return
-
-    if (command === 'clear') {
-      setHistory([])
-    } else {
-      const response: Record<string, string> = {
-        help: 'Commands: about · projects · skills · github · clear',
-        about: 'Curious builder. I create software and experiments, learn in public, and ship on GitHub.',
-        projects: 'Showing my latest public repositories below.',
-        skills: 'Always learning: JavaScript / TypeScript / React / Git / Linux',
-        github: `Opening github.com/${username}…`,
-      }
-
-      setHistory((current) => [
-        ...current,
-        `<span class="prompt-mini">~/${username}</span> $ ${input}`,
-        command === 'github'
-          ? response.github
-          : response[command] ?? `command not found: ${input}. Try 'help'.`,
-      ])
-
-      if (command === 'github') {
-        window.open(`https://github.com/${username}`, '_blank', 'noopener,noreferrer')
-      }
-    }
-    setInput('')
-  }
-
   return (
-    <main>
-      <nav className="nav" aria-label="Main navigation">
-        <a className="brand" href="#top" aria-label="Home">
-          <span className="brand-dot" /> /{username}
-        </a>
-        <div className="nav-links">
-          <a href="#projects">projects</a>
-          <a href="#about">about</a>
-          <a className="github-link" href={`https://github.com/${username}`} target="_blank" rel="noreferrer">GitHub ↗</a>
-        </div>
-      </nav>
-
-      <section className="hero-section" id="top">
-        <div className="terminal" onClick={() => inputRef.current?.focus()}>
-          <div className="terminal-bar">
-            <div className="window-buttons" aria-hidden="true"><i /><i /><i /></div>
-            <span>guest@portfolio: ~</span>
-            <span className="bar-status">● online</span>
+    <div className="shell" id="top">
+      <a className="skip" href="#works">Skip to projects</a>
+      <header className="nav">
+        <a className="brand" href="#top"><span className="mark" aria-hidden="true">◈</span> andreyfemboyev</a>
+        <nav aria-label="Main navigation"><a href="#works">Works</a><a href="#about">About</a><a href={gh}>GitHub ↗</a></nav>
+      </header>
+      <main>
+        <section className="hero">
+          <div className="meta"><span>INDEPENDENT DEVELOPMENT</span><span>INDEX / 2026</span></div>
+          <h1>Software<br/>beyond <em>utility.</em></h1>
+          <div className="hero-bottom"><p>Distributed systems, persistent storage and computational art. Building software to understand its inner workings — and to explore what it can become.</p><a className="button" href="#works">Explore selected works <span>↓</span></a></div>
+        </section>
+        <section id="works" aria-labelledby="works-title">
+          <div className="section-heading"><span>01 — INDEX</span><h2 id="works-title">Selected works</h2><span>04 PROJECTS</span></div>
+          <article className="feature art">
+            <figure><img src={art} alt="antiOS Identity state: large typography beside an engraved abstract organism" width="1200" height="750"/><figcaption>PLATE 01 / IDENTITY — NATIVE APPLICATION</figcaption></figure>
+            <div className="feature-copy"><div className="meta"><span>01 / COMPUTATIONAL ART</span><span>RUST</span></div><h3>antiOS</h3><p className="subtitle">An operating system without a purpose.</p><p>Seven digital organisms, six evolving states, synthesized sound and interactive gestures. An autonomous installation and a tool for making generative prints, not a conventional operating system.</p>
+            <div className="links"><a className="button" href={gh+'/antiOS-Windows/releases'}>Windows ↓</a><a className="button" href={gh+'/antiOS-Linux/releases'}>Linux ↓</a><a href={gh+'/antiOS-Linux'}>Source ↗</a></div></div>
+          </article>
+          <article className="feature database">
+            <div className="feature-copy"><div className="meta"><span>02 / DISTRIBUTED SYSTEMS</span><span>PYTHON</span></div><h3>RaftDB<br/>Extended</h3><p className="subtitle">Consensus meets persistent storage.</p><p>Experimental distributed SQL with Raft, a custom SQL engine, segmented journals, snapshots and recovery. A dependency-free core for learning and research.</p><div className="links"><a className="button" href={gh+'/raftfb_extended'}>Source ↗</a><a href={gh+'/raftfb_extended/blob/main/ARCHITECTURE.md'}>Architecture ↗</a><a href={gh+'/raftfb_extended/tree/main/benchmarks'}>Benchmarks ↗</a></div></div>
+            <figure className="schematic"><svg viewBox="0 0 520 300" role="img" aria-labelledby="diagram-title"><title id="diagram-title">SQL client sends requests to a Raft leader, which replicates its log to two followers</title><g fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M260 63V102M260 162V190H100V219M260 190H420V219" /><rect x="180" y="20" width="160" height="43"/><rect x="170" y="102" width="180" height="60"/><rect x="25" y="219" width="150" height="50"/><rect x="345" y="219" width="150" height="50"/></g><g fill="currentColor" fontSize="13" textAnchor="middle" fontFamily="monospace"><text x="260" y="46">SQL CLIENT</text><text x="260" y="128">RAFT LEADER</text><text x="260" y="146" fontSize="10">LOCAL STATE + LOG</text><text x="100" y="241">FOLLOWER 01</text><text x="100" y="257" fontSize="10">LOCAL STORAGE</text><text x="420" y="241">FOLLOWER 02</text><text x="420" y="257" fontSize="10">LOCAL STORAGE</text></g></svg><figcaption>FIG. 02 / SIMPLIFIED REPLICATION MODEL</figcaption></figure>
+          </article>
+          <div className="minor-grid">
+            <article><div className="meta"><span>03 / STORAGE</span><span>PYTHON</span></div><div className="record" aria-label="Record layout: header, key and value"><span>HEADER<br/><small>21 B</small></span><span>KEY</span><span>VALUE</span></div><h3>Bitcask DB</h3><p>Embedded append-only key-value storage with CRC32, recovery and compaction. Built with the Python standard library.</p><a href={gh+'/bitcask-db'}>Explore source ↗</a></article>
+            <article><div className="meta"><span>04 / CONSENSUS</span><span>PYTHON</span></div><div className="record log" aria-label="Replicated log illustration"><span>01</span><span>02</span><span>03</span><span>04</span></div><h3>RaftDB</h3><p>The original, simpler distributed relational database: leader election, durable logs and a replicated SQL state machine.</p><a href={gh+'/raftdb'}>Explore source ↗</a></article>
           </div>
-
-          <div className="terminal-body">
-            <div className="identity">
-              <img src={`https://avatars.githubusercontent.com/${username}`} alt={`${username}'s GitHub avatar`} />
-              <div>
-                <p className="eyebrow"><span>~/</span>{username}</p>
-                <h1>Building things<br /><em>one commit</em> at a time<span className="cursor">_</span></h1>
-              </div>
-            </div>
-
-            <div className="console-output" aria-live="polite">
-              {history.map((line, index) => (
-                <p key={index} dangerouslySetInnerHTML={{ __html: line }} />
-              ))}
-            </div>
-
-            <form className="command-line" onSubmit={runCommand}>
-              <label htmlFor="command"><span>~/{username}</span> $</label>
-              <input
-                ref={inputRef}
-                id="command"
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                placeholder="type 'help'"
-                autoComplete="off"
-                spellCheck="false"
-              />
-            </form>
-          </div>
-        </div>
-      </section>
-
-      <section className="projects-section" id="projects">
-        <header className="section-header">
-          <div><span>01</span><h2>Latest projects</h2></div>
-          <a href={`https://github.com/${username}?tab=repositories`} target="_blank" rel="noreferrer">View all ↗</a>
-        </header>
-
-        {loading ? (
-          <div className="repo-grid"><p className="loading">Fetching repositories…</p></div>
-        ) : repos.length ? (
-          <div className="repo-grid">
-            {repos.map((repo, index) => (
-              <a className="repo-card" href={repo.html_url} target="_blank" rel="noreferrer" key={repo.name}>
-                <div className="repo-top"><span>{String(index + 1).padStart(2, '0')}</span><b>↗</b></div>
-                <h3>{repo.name}</h3>
-                <p>{repo.description || 'No description provided.'}</p>
-                <footer>
-                  {repo.language && <span><i />{repo.language}</span>}
-                  <span>★ {repo.stargazers_count}</span>
-                </footer>
-              </a>
-            ))}
-          </div>
-        ) : (
-          <p className="empty-state">No public repositories found yet. The next commit could be the first.</p>
-        )}
-      </section>
-
-      <section className="about-section" id="about">
-        <header className="section-header">
-          <div><span>02</span><h2>About / stack</h2></div>
-        </header>
-        <div className="about-grid">
-          <p className="about-copy">I like turning ideas into useful software, understanding how systems work, and sharing the process through code.</p>
-          <div className="stack-list">
-            {['JavaScript', 'TypeScript', 'React', 'Git', 'Linux'].map((skill) => (
-              <span key={skill}>{skill}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <footer className="footer">
-        <span>© {new Date().getFullYear()} {username}</span>
-        <a href={`https://github.com/${username}`} target="_blank" rel="noreferrer">github.com/{username} ↗</a>
-      </footer>
-    </main>
+          <p className="note">Database projects are experimental. Consult each repository for limitations, supported environments and verification methods.</p>
+        </section>
+        <section id="about" className="about" aria-labelledby="about-title"><div className="section-heading"><span>02 — NOTES</span><h2 id="about-title">About</h2><span>OPEN SOURCE</span></div><div className="about-grid"><p className="statement">Understand systems by building them. Treat software as an expressive medium, not only a tool.</p><div><p>I explore the intersection of systems engineering and digital art through independent projects. The source, technical decisions and limitations are available on GitHub.</p><div className="tags"><span>Rust</span><span>Python</span><span>WGSL</span><span>Linux</span><span>Distributed systems</span><span>Creative coding</span></div><a href={gh}>View GitHub profile ↗</a></div></div></section>
+      </main>
+      <footer><span>ANDREYFEMBOYEV / PROJECT INDEX</span><a href="#top">Back to top ↑</a><a href={gh+'?tab=repositories'}>All repositories ↗</a></footer>
+    </div>
   )
 }
-
 export default App
