@@ -1,0 +1,63 @@
+
+
+RAFTDB EXTENDED / LIVE LOCAL RUN
+
+01 / ELECT A LEADER
+
+n1: follower  term=1  commit=1
+n2: follower  term=1  commit=1
+n3: leader  term=1  commit=1
+
+RAFTDB EXTENDED / LIVE LOCAL RUN
+
+02 / COMMIT AND QUERY
+
+SELECT * FROM tasks ORDER BY id
+
+{
+  "ok": true,
+  "columns": [
+    "id",
+    "title"
+  ],
+  "rows": [
+    [
+      1,
+      "durable data"
+    ]
+  ],
+  "request_id": "b05e159f74e64d3a9fa875e66bf2299a",
+  "index": 4
+}
+
+RAFTDB EXTENDED / LIVE LOCAL RUN
+
+03 / STOP THE LEADER
+
+Stopped: n3
+New leader: n2
+
+n1: follower  term=2  commit=5
+n2: leader  term=2  commit=5
+
+RAFTDB EXTENDED / LIVE LOCAL RUN
+
+04 / QUERY AFTER FAILOVER
+
+{
+  "ok": true,
+  "columns": [
+    "id",
+    "title"
+  ],
+  "rows": [
+    [
+      1,
+      "durable data"
+    ]
+  ],
+  "request_id": "0854c420ee5c465c9172c7f7b6245859",
+  "index": 6
+}
+
+Verified: returned rows match.
