@@ -1,32 +1,27 @@
-# React + TypeScript + Vite
+# Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Systems engineering / experimental software / generative art**
 
-Currently, two official plugins are available:
+Independent projects exploring distributed systems, durable storage and software as an artistic medium.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Featured projects
 
-## React Compiler
+| Project | Description | Explore |
+| --- | --- | --- |
+| antiOS | Interactive generative artwork with seven organisms, evolving states, synthesized sound and print export | [Windows](https://github.com/andreyfemboyev/antiOS-Windows) · [Linux](https://github.com/andreyfemboyev/antiOS-Linux) |
+| RaftDB Extended | Experimental distributed SQL database with Raft and Bitcask-inspired storage | [Source](https://github.com/andreyfemboyev/raftfb_extended) · [Releases](https://github.com/andreyfemboyev/raftfb_extended/releases) |
+| RaftDB | Original distributed relational database in Python | [Source](https://github.com/andreyfemboyev/raftdb) |
+| Bitcask DB | Embedded append-only key-value storage engine | [Source](https://github.com/andreyfemboyev/bitcask-db) |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![antiOS — Identity](https://raw.githubusercontent.com/andreyfemboyev/antiOS-Linux/main/screenshots/identity.png)
 
-## Expanding the Oxlint configuration
+## Development
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+React, TypeScript and Vite.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```sh
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Database projects are experimental. Refer to each repository for limitations, supported environments and verification instructions.
