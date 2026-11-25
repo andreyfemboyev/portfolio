@@ -40,6 +40,23 @@ jobs:
             git commit -m "media: preserve generated antiOS demo"
             git push origin HEAD:main
           fi
+      - name: Import completed RaftDB demo and transcript if not already versioned
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [ ! -s public/media/raftdb.mp4 ] || [ ! -s public/media/raftdb-transcript.txt ]; then
+            mkdir -p public/media
+            gh run download 45669763761 --repo "$GITHUB_REPOSITORY" --name raftdb-real-demo --dir public/media
+            test -s public/media/raftdb.mp4
+            test -s public/media/raftdb-transcript.txt
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add public/media/raftdb.mp4 public/media/raftdb-transcript.txt
+            git commit -m "media: preserve verified RaftDB failover demonstration"
+            git push origin HEAD:main
+          fi
       - uses: actions/setup-node@v5
         with:
           node-version: 24
