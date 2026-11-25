@@ -1,6 +1,7 @@
 import './App.css'
 
 const gh = 'https://github.com/andreyfemboyev'
+const demo = import.meta.env.BASE_URL + 'media/antios.mp4'
 const art = 'https://raw.githubusercontent.com/andreyfemboyev/antiOS-Linux/main/screenshots/identity.png'
 
 function App() {
@@ -19,10 +20,10 @@ function App() {
         </section>
         <section id="works" aria-labelledby="works-title">
           <div className="section-heading"><span>01 — INDEX</span><h2 id="works-title">Selected works</h2><span>04 PROJECTS</span></div>
-          <article className="feature art">
-            <figure><img src={art} alt="antiOS Identity state: large typography beside an engraved abstract organism" width="1200" height="750"/><figcaption>PLATE 01 / IDENTITY — NATIVE APPLICATION</figcaption></figure>
+          <article className="feature art" id="antios">
+            <figure><video controls playsInline preload="metadata" poster={art} aria-label="antiOS native simulation demonstration"><source src={demo} type="video/mp4"/><a href={demo}>Download the antiOS demo</a></video><figcaption>FILM 01 / NATIVE SIMULATION — 18 SEC / SILENT</figcaption></figure>
             <div className="feature-copy"><div className="meta"><span>01 / COMPUTATIONAL ART</span><span>RUST</span></div><h3>antiOS</h3><p className="subtitle">An operating system without a purpose.</p><p>Seven digital organisms, six evolving states, synthesized sound and interactive gestures. An autonomous installation and a tool for making generative prints, not a conventional operating system.</p>
-            <div className="links"><a className="button" href={gh+'/antiOS-Windows/releases'}>Windows ↓</a><a className="button" href={gh+'/antiOS-Linux/releases'}>Linux ↓</a><a href={gh+'/antiOS-Linux'}>Source ↗</a></div></div>
+            <div className="links"><a className="button" href={gh+'/antiOS-Windows/releases'}>Windows ↓</a><a className="button" href={gh+'/antiOS-Linux/releases'}>Linux ↓</a><a href={gh+'/antiOS-Linux'}>Source ↗</a><a href={demo} download="antios.mp4">MP4 ↓</a></div></div>
           </article>
           <article className="feature database">
             <div className="feature-copy"><div className="meta"><span>02 / DISTRIBUTED SYSTEMS</span><span>PYTHON</span></div><h3>RaftDB<br/>Extended</h3><p className="subtitle">Consensus meets persistent storage.</p><p>Experimental distributed SQL with Raft, a custom SQL engine, segmented journals, snapshots and recovery. A dependency-free core for learning and research.</p><div className="links"><a className="button" href={gh+'/raftfb_extended'}>Source ↗</a><a href={gh+'/raftfb_extended/blob/main/ARCHITECTURE.md'}>Architecture ↗</a><a href={gh+'/raftfb_extended/tree/main/benchmarks'}>Benchmarks ↗</a></div></div>

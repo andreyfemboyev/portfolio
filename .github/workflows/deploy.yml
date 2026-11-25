@@ -16,9 +16,30 @@ concurrency:
 
 jobs:
   build:
+    permissions:
+      contents: write
+      actions: read
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      - name: Import completed antiOS demo if not already versioned
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [ ! -s public/media/antios.mp4 ]; then
+            mkdir -p public/media
+            gh run download 45669763761 --repo "$GITHUB_REPOSITORY" --name antios-real-demo --dir public/media
+            test -s public/media/antios.mp4
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add public/media/antios.mp4
+            git commit -m "media: preserve generated antiOS demo"
+            git push origin HEAD:main
+          fi
       - uses: actions/setup-node@v5
         with:
           node-version: 24
