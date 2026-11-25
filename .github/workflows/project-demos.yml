@@ -1,0 +1,64 @@
+name: Generate real project demonstrations
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/project-demos.yml'
+      - 'media/raft-demo.py'
+permissions:
+  contents: read
+jobs:
+  antios:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install runtime and video tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libasound2 libxkbcommon0 libxkbcommon-x11-0 libwayland-client0 libvulkan1 libegl1 mesa-vulkan-drivers
+      - name: Download verified release location
+        run: |
+          curl --fail --location --retry 3 https://github.com/andreyfemboyev/antiOS-Linux/releases/download/v1.0.0/antiOS-1.0.0-linux-x86_64.tar.gz -o antios.tar.gz
+          mkdir antios-bin demos
+          tar -xzf antios.tar.gz -C antios-bin
+      - name: Render actual antiOS simulation
+        run: |
+          set -euo pipefail
+          install -d -m 700 "$RUNNER_TEMP/antios-runtime"
+          export XDG_RUNTIME_DIR="$RUNNER_TEMP/antios-runtime"
+          for frame in 0 2220 11280; do
+            ./antios-bin/antios --frames "frames-$frame" --at-frame "$frame" --count 144 --fps 24 --size 960x600 --quality low --seed 168888070 --backend vulkan --clean --mp4 "clip-$frame.mp4"
+            ffmpeg -y -i "clip-$frame.mp4" -vf "scale=960:600,setsar=1" -r 24 -c:v libx264 -pix_fmt yuv420p -an "normalized-$frame.mp4"
+            printf "file 'normalized-%s.mp4'\n" "$frame" >> clips.txt
+            rm -rf "frames-$frame"
+          done
+          ffmpeg -y -f concat -safe 0 -i clips.txt -c copy -movflags +faststart demos/antios.mp4
+          ffprobe -v error -show_format demos/antios.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: antios-real-demo
+          path: demos/antios.mp4
+          if-no-files-found: error
+  raftdb:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: andreyfemboyev/raftfb_extended
+          path: database
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - name: Run real three-node failover demonstration
+        run: python media/raft-demo.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: raftdb-real-demo
+          path: demos/
+          if-no-files-found: error
