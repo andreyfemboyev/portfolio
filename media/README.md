@@ -26,3 +26,7 @@ antiOS isn't a conventional OS. Seven digital organisms inhabit a GPU-rendered w
 I built this as a learning project around Raft, SQL execution and durable storage, using OpenAI Codex and ChatGPT for AI-assisted engineering. The core uses Python's standard library. It supports three-node experiments, leader replacement, segmented journals and snapshots. The repository includes consistency notes and reproducible benchmark methodology. It is not intended for production or untrusted networks. I'd appreciate feedback on the design and failure-model assumptions.
 
 [Source and instructions](https://github.com/andreyfemboyev/raftfb_extended)
+
+## KERNEL//LAB
+
+The portfolio deploy workflow builds the pinned Rust CLI and runs a synthetic Kbuild fixture to generate a 30-second film and raw transcript. It is not a full Android kernel build or a device test.

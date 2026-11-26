@@ -4,6 +4,8 @@ const gh = 'https://github.com/andreyfemboyev'
 const demo = import.meta.env.BASE_URL + 'media/antios.mp4'
 const raftDemo = import.meta.env.BASE_URL + 'media/raftdb.mp4'
 const raftTranscript = import.meta.env.BASE_URL + 'media/raftdb-transcript.txt'
+const kernelDemo = import.meta.env.BASE_URL + 'media/kernel-labs.mp4'
+const kernelTranscript = import.meta.env.BASE_URL + 'media/kernel-labs-transcript.txt'
 const art = 'https://raw.githubusercontent.com/andreyfemboyev/antiOS-Linux/main/screenshots/identity.png'
 
 function App() {
@@ -18,10 +20,10 @@ function App() {
         <section className="hero">
           <div className="meta"><span>INDEPENDENT DEVELOPMENT</span><span>INDEX / 2026</span></div>
           <h1>Software<br/>beyond <em>utility.</em></h1>
-          <div className="hero-bottom"><p>Distributed systems, persistent storage and computational art. Building software to understand its inner workings — and to explore what it can become.</p><a className="button" href="#works">Explore selected works <span>↓</span></a></div>
+          <div className="hero-bottom"><p>Kernel engineering, distributed systems, persistent storage and computational art. Building software to understand its inner workings — and to explore what it can become.</p><a className="button" href="#works">Explore selected works <span>↓</span></a></div>
         </section>
         <section id="works" aria-labelledby="works-title">
-          <div className="section-heading"><span>01 — INDEX</span><h2 id="works-title">Selected works</h2><span>04 PROJECTS</span></div>
+          <div className="section-heading"><span>01 — INDEX</span><h2 id="works-title">Selected works</h2><span>05 PROJECTS</span></div>
           <article className="feature art" id="antios">
             <figure><video controls playsInline preload="metadata" poster={art} aria-label="antiOS native simulation demonstration"><source src={demo} type="video/mp4"/><a href={demo}>Download the antiOS demo</a></video><figcaption>FILM 01 / NATIVE SIMULATION — 18 SEC / SILENT</figcaption></figure>
             <div className="feature-copy"><div className="meta"><span>01 / COMPUTATIONAL ART</span><span>RUST</span></div><h3>antiOS</h3><p className="subtitle">An operating system without a purpose.</p><p>Seven digital organisms, six evolving states, synthesized sound and interactive gestures. An autonomous installation and a tool for making generative prints, not a conventional operating system.</p>
@@ -35,9 +37,13 @@ function App() {
             <div><div className="meta"><span>FILM 02 / LOCAL CLUSTER EXPERIMENT</span><span>24 SEC / SILENT</span></div><h3>Leader failover</h3><p>Three real replicas. Commit a row, stop the leader, elect a replacement and verify that the query still returns the same rows. This film presents captured command results, not a production availability guarantee.</p><a href={raftTranscript}>Read the actual run transcript ↗</a></div>
             <video controls playsInline preload="metadata" poster={import.meta.env.BASE_URL + 'media/raftdb-cover.svg'} aria-label="RaftDB real local cluster failover demonstration"><source src={raftDemo} type="video/mp4"/><a href={raftDemo}>Download RaftDB demo</a></video>
           </figure>
+          <article className="feature" id="kernel-labs">
+            <figure><video controls playsInline preload="metadata" poster={import.meta.env.BASE_URL + 'media/kernel-labs-cover.svg'} aria-label="Kernel Lab CLI synthetic fixture demonstration"><source src={kernelDemo} type="video/mp4"/><a href={kernelDemo}>Download Kernel Lab demo</a></video><figcaption>FILM 03 / SYNTHETIC KBUILD FIXTURE — 30 SEC / SILENT</figcaption></figure>
+            <div className="feature-copy"><div className="meta"><span>03 / KERNEL ENGINEERING</span><span>RUST / TAURI</span></div><h3>KERNEL//<br/>LAB</h3><p className="subtitle">Build beneath Android.</p><p>An offline-first Android and Linux kernel workbench: source-tree discovery, approved build plans, SQLite history, ELF and boot image inspection, ABI comparison and panic diagnostics.</p><p>Early alpha. The demonstration uses a native synthetic Kbuild fixture, not a full Android kernel or a live device.</p><div className="links"><a className="button" href={gh+'/kernel-labs'}>Source ↗</a><a href={gh+'/kernel-labs/releases'}>Releases ↗</a><a href={gh+'/kernel-labs/blob/main/docs/LIMITATIONS.md'}>Scope ↗</a><a href={kernelDemo} download="kernel-labs.mp4">MP4 ↓</a><a href={kernelTranscript}>Run transcript ↗</a></div></div>
+          </article>
           <div className="minor-grid">
-            <article><div className="meta"><span>03 / STORAGE</span><span>PYTHON</span></div><div className="record" aria-label="Record layout: header, key and value"><span>HEADER<br/><small>21 B</small></span><span>KEY</span><span>VALUE</span></div><h3>Bitcask DB</h3><p>Embedded append-only key-value storage with CRC32, recovery and compaction. Built with the Python standard library.</p><a href={gh+'/bitcask-db'}>Explore source ↗</a></article>
-            <article><div className="meta"><span>04 / CONSENSUS</span><span>PYTHON</span></div><div className="record log" aria-label="Replicated log illustration"><span>01</span><span>02</span><span>03</span><span>04</span></div><h3>RaftDB</h3><p>The original, simpler distributed relational database: leader election, durable logs and a replicated SQL state machine.</p><a href={gh+'/raftdb'}>Explore source ↗</a></article>
+            <article><div className="meta"><span>04 / STORAGE</span><span>PYTHON</span></div><div className="record" aria-label="Record layout: header, key and value"><span>HEADER<br/><small>21 B</small></span><span>KEY</span><span>VALUE</span></div><h3>Bitcask DB</h3><p>Embedded append-only key-value storage with CRC32, recovery and compaction. Built with the Python standard library.</p><a href={gh+'/bitcask-db'}>Explore source ↗</a></article>
+            <article><div className="meta"><span>05 / CONSENSUS</span><span>PYTHON</span></div><div className="record log" aria-label="Replicated log illustration"><span>01</span><span>02</span><span>03</span><span>04</span></div><h3>RaftDB</h3><p>The original, simpler distributed relational database: leader election, durable logs and a replicated SQL state machine.</p><a href={gh+'/raftdb'}>Explore source ↗</a></article>
           </div>
           <p className="note">Database projects are experimental. Consult each repository for limitations, supported environments and verification methods.</p>
         </section>

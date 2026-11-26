@@ -57,6 +57,23 @@ jobs:
             git commit -m "media: preserve verified RaftDB failover demonstration"
             git push origin HEAD:main
           fi
+      - uses: actions/checkout@v5
+        with:
+          repository: andreyfemboyev/kernel-labs
+          ref: 6541d0fc908ca330de58a77dc11d70eedef37
+          path: kernel-source
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Generate Kernel Lab film from real CLI execution
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-dejavu-core python3-pil
+          cargo build --locked --release -p klab --manifest-path kernel-source/Cargo.toml
+          /usr/bin/python3 media/kernel-demo.py
+          test -s public/media/kernel-labs.mp4
+          test -s public/media/kernel-labs-transcript.txt
+          ffprobe -v error -show_format public/media/kernel-labs.mp4
+          rm -rf kernel-source
       - uses: actions/setup-node@v5
         with:
           node-version: 24
