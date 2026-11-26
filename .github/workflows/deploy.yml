@@ -57,12 +57,12 @@ jobs:
             git commit -m "media: preserve verified RaftDB failover demonstration"
             git push origin HEAD:main
           fi
-      - uses: actions/checkout@v5
-        with:
-          repository: andreyfemboyev/kernel-labs
-          ref: 6541d0fc908ca330de58a77dc11d70eedef37
-          path: kernel-source
-          persist-credentials: false
+      - name: Fetch public Kernel Lab source at the reviewed commit
+        run: |
+          set -euo pipefail
+          git clone --no-checkout https://github.com/andreyfemboyev/kernel-labs.git kernel-source
+          git -C kernel-source checkout --detach 6541d0fc908ca330de58a77dc11d70eedef37
+          test "$(git -C kernel-source rev-parse HEAD)" = 6541d0fc908ca330de58a77dc11d70eedef37
       - uses: dtolnay/rust-toolchain@stable
       - name: Generate Kernel Lab film from real CLI execution
         run: |
